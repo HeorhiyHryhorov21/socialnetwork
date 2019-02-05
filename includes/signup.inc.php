@@ -5,11 +5,11 @@ if (isset($_POST['submit'])) {
 
 	include_once 'dbh.inc.php';
 
-	$first = mysqli_real_escape_string($conn, $_POST['first']);
-	$last = mysqli_real_escape_string($conn, $_POST['last']);
-	$email = mysqli_real_escape_string($conn, $_POST['email']);
-	$uid = mysqli_real_escape_string($conn, $_POST['uid']);
-	$pwd = mysqli_real_escape_string($conn, $_POST['pwd']);
+	$first  =   $_POST['first'];
+	$last   =   $_POST['last'];
+	$email  =   $_POST['email'];
+	$uid    =   $_POST['uid'];
+	$pwd    =   $_POST['pwd'];
 	
 	//Error handlers
 	//Check for empty fields
@@ -35,11 +35,12 @@ if (isset($_POST['submit'])) {
 				header("Location: ../signup.php?signup=image");
 				exit();
 			} else{
-				$sql = "SELECT * FROM users WHERE user_uid='$uid'";
-				$result = mysqli_query($conn, $sql);
-				$resultCheck = mysqli_num_rows($result);
+                $stmt = $pdo->prepare("SELECT * FROM users WHERE user_uid=?");
+                $stmt->execute([$uid]);
+                $arr = $stmt->fetchAll();
+                $stmt = null;
 
-				if ($resultCheck > 0) {
+				if ($arr) {
 					header("Location: ../signup.php?signup=usertaken");
 					exit();
 				} else {
@@ -47,28 +48,29 @@ if (isset($_POST['submit'])) {
 			
 					// Hashing the password
 					$hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
-					//adding lashes to image
-					$file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
+					//adding slashes to image
+					$file = file_get_contents($_FILES["image"]["tmp_name"]);
 					//Insert the user into the database
-					$sql = "INSERT INTO users (user_first, user_last, user_email, user_uid, user_pwd, user_img) VALUES ('$first', '$last',  '$email', '$uid','$hashedPwd', '$file')";
-					$result = mysqli_query($conn, $sql);
+                    $stmt = $pdo->prepare("INSERT INTO users (user_first, user_last, user_email, user_uid, user_pwd, user_img, user_friends) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->execute([$first, $last, $email, $uid, $hashedPwd, $file, 0]);
+
 					//making autologin
-					$sql = "SELECT * FROM users WHERE user_uid='$uid' or user_email='$uid'";
-					$result = mysqli_query($conn, $sql);
-					$resultCheck = mysqli_num_rows($result);
-					if ($resultCheck < 1) {
+                    $stmt = $pdo->prepare("SELECT * FROM users WHERE user_uid=? or user_email=?");
+                    $stmt->execute([$uid, $uid]);
+                    $arr = $stmt->fetchAll();
+                    $stmt = null;
+
+					if (!$arr) {
 						header("Location: ../index.php?login=error");
 						exit();
 					} else {
-					if ($row = mysqli_fetch_assoc($result)) {
-					$_SESSION['u_id'] = $row['user_id'];
-					$_SESSION['u_first'] = $row['user_first'];
-					$_SESSION['u_last'] = $row['user_last'];
-					$_SESSION['u_email'] = $row['user_email'];
-					$_SESSION['u_uid'] = $row['user_uid'];
+					$_SESSION['u_id'] = $arr[0]['user_id'];
+					$_SESSION['u_first'] = $arr[0]['user_first'];
+					$_SESSION['u_last'] = $arr[0]['user_last'];
+					$_SESSION['u_email'] = $arr[0]['user_email'];
+					$_SESSION['u_uid'] = $arr[0]['user_uid'];
 					header("Location: ../index.php?login=success");
 					exit();
-					}
 				}
 			}
 		}

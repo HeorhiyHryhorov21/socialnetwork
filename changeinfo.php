@@ -4,103 +4,90 @@
 <!-- Updating image -->
 
 <?php 
-if (isset($_SESSION['u_id'])) {
+if (isset($_SESSION['u_id'])) :
 	?>
 	<?php 
-	if(isset($_POST["change-image"])) {  
-		$file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));  
-		$query = "UPDATE users SET user_img='$file' WHERE user_id={$_SESSION['u_id']}";  
-		if(mysqli_query($conn, $query)) {  
-			
-		}  
-	}  
+	if(isset($_POST["change-image"])) :
+		$file = file_get_contents($_FILES["image"]["tmp_name"]);
+		$stmt = $pdo->prepare("UPDATE users SET user_img=? WHERE user_id=?");
+		$stmt->execute([$file, $_SESSION['u_id']]);
+		$stmt = null;
+	endif;
 	?>
 	<!-- Updating userinfo-->
 	<?php 
 
-	if (isset($_POST['change-userinfo'])) {
+	if (isset($_POST['change-userinfo'])) :
 		$first = $_POST['first'];
 		$last = $_POST['last'];
 		$email = $_POST['email'];
 		$username = $_POST['username'];
 
-		$sql = "UPDATE users
-		SET user_first='$first', user_last='$last', user_email='$email', user_uid='$username'
-		WHERE user_id=user_id={$_SESSION['u_id']}";
-		if(mysqli_query($conn, $sql)) {  
-			
-		}  
-	}
+		$stmt = $pdo->prepare("UPDATE users
+		SET user_first=?, user_last=?, user_email=?, user_uid=?
+		WHERE user_id=user_id=?");
+		$stmt->execute([$first, $last, $email, $username, $_SESSION['u_id']]);
+        $stmt = null;
+	endif;
 
 	?>
 	<!-- Fetching image -->
 
-	<?php 
-	$query = "SELECT * FROM users ORDER BY user_id DESC";
-	$result=mysqli_query($conn,$query);
-	while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
+	<?php
+    $stmt = $pdo->prepare("SELECT * FROM users ORDER BY user_id DESC");
+    $stmt->execute();
+    $arr = $stmt->fetchAll();
+    $stmt = null;
 		?>
 		<!-- Main content -->
 		<div class="main-wrapper">
-
 			<!-- Adding sidebar-->
-			
 			<?php include_once 'sidebar.php';?>
-
 			<div class="profile">
-				<?php 
-				$query = "SELECT * FROM users ORDER BY user_id DESC";
-				$result=mysqli_query($conn,$query);
-				while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
-					?>
 					<div class="userinfo">
-						<img id="profile-image" src=<?php echo '"data:image;base64,'.base64_encode($row['user_img']).'"'; ?>>
+						<img id="profile-image" src=<?php echo '"data:image;base64,'.base64_encode($arr[0]['user_img']).'"'; ?>>
 
 						<h2>Change user's information</h2>
 						<form action="changeinfo.php" method="POST">
 							<ul><li>First name :</li>
-								<li><input type="text" name="first" value=<?php $sql = "SELECT * FROM users WHERE user_id={$_SESSION['u_id']}";
-								$result = mysqli_query($conn, $sql);
-								$resultCheck = mysqli_num_rows($result);
-								if ($resultCheck > 0) {
-									if ($row = mysqli_fetch_assoc($result)) {
-										echo $row['user_first'];
-									}
-
-								}
+								<li><input type="text" name="first" value=<?php
+                                    $stmt = $pdo->prepare("SELECT * FROM users WHERE user_id=?");
+                                    $stmt->execute([$_SESSION['u_id']]);
+                                    $arr = $stmt->fetchAll();
+                                    $stmt = null;
+								    if ($arr) {
+								        echo $arr[0]['user_first'];
+								    }
 								?>></li></ul>
 								<ul><li>Last name :</li>
-									<li><input type="text" name="last" value=<?php $sql = "SELECT * FROM users WHERE user_id={$_SESSION['u_id']}";
-									$result = mysqli_query($conn, $sql);
-									$resultCheck = mysqli_num_rows($result);
-									if ($resultCheck > 0) {
-										if ($row = mysqli_fetch_assoc($result)) {
-											echo $row['user_last'];
-										}
-
-									}
+									<li><input type="text" name="last" value=<?php
+                                        $stmt = $pdo->prepare("SELECT * FROM users WHERE user_id=?");
+                                        $stmt->execute([$_SESSION['u_id']]);
+                                        $arr = $stmt->fetchAll();
+                                        $stmt = null;
+                                        if ($arr) {
+                                            echo $arr[0]['user_last'];
+                                        }
 									?>></p></li></ul>
 									
-									<ul><li>Username :</li><li><input type="text" name="username" value=<?php $sql = "SELECT * FROM users WHERE user_id={$_SESSION['u_id']}";
-									$result = mysqli_query($conn, $sql);
-									$resultCheck = mysqli_num_rows($result);
-									if ($resultCheck > 0) {
-										if ($row = mysqli_fetch_assoc($result)) {
-											echo $row['user_uid'];
-										}
-
-									}
+									<ul><li>Username :</li><li><input type="text" name="username" value=<?php
+                                            $stmt = $pdo->prepare("SELECT * FROM users WHERE user_id=?");
+                                            $stmt->execute([$_SESSION['u_id']]);
+                                            $arr = $stmt->fetchAll();
+                                            $stmt = null;
+                                            if ($arr) {
+                                                echo $arr[0]['user_uid'];
+                                            }
 									?>></li></ul>
 									<ul><li>Email :</li>
-										<li><input type="email" name="email" value=<?php $sql = "SELECT * FROM users WHERE user_id={$_SESSION['u_id']}";
-										$result = mysqli_query($conn, $sql);
-										$resultCheck = mysqli_num_rows($result);
-										if ($resultCheck > 0) {
-											if ($row = mysqli_fetch_assoc($result)) {
-												echo $row['user_email'];
-											}
-
-										}
+										<li><input type="email" name="email" value=<?php
+                                            $stmt = $pdo->prepare("SELECT * FROM users WHERE user_id=?");
+                                            $stmt->execute([$_SESSION['u_id']]);
+                                            $arr = $stmt->fetchAll();
+                                            $stmt = null;
+                                            if ($arr) {
+                                                echo $arr[0]['user_email'];
+                                            }
 										?>></ul>
 										<ul><li><input type="submit" name="change-userinfo" value="Change user information"></li></ul>
 									</form>
@@ -116,12 +103,10 @@ if (isset($_SESSION['u_id'])) {
 									
 								</div>
 							</div>
-						</div>
-					<?php } ?>
-					
-				<?php }	?>
-			<?php }	?>
+					</div>
+
+			<?php endif;	?>
 
 
 
-			<?php include_once 'footer.php';?>
+	<?php include_once 'footer.php';?>

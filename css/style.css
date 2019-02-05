@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display');
+
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 abbr, address, cite, code,
@@ -19,9 +22,15 @@ time, mark, audio, video {
     background:transparent;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     line-height:1;
-    font-family: arial;
+    font-family: 'Arial';
+    background-color: #ccc;
+    width: 100%;
 }
 
 article,aside,details,figcaption,figure,
@@ -94,23 +103,24 @@ input, select {
     vertical-align:middle;
 }
 
-/* My code*/
+header {
+    width: 100%;
+}
 
 .header_wrapper {
+    width: 90%;
     margin: 0 auto;
-    width: 1000px;
+    margin: 0 5% 0 5%;
+}
+h1, h3 {
+    font-family: 'Playfair Display', serif;
 }
 
-
+p, a {
+    font-family: 'Source Sans Pro', sans-serif;
+}
 a {
     text-decoration: none;
-}
-body {
-    background-color: #ccc;
-}
-
-header  {
-    border-bottom: 3px solid #333;
 }
 
 header nav {
@@ -130,7 +140,6 @@ header nav ul li{
 }
 
 header nav ul li a {
-    font-family: arial;
     font-size: 16px;
     color: #111;
     line-height: 63px;
@@ -154,7 +163,6 @@ header .nav-login  form input{
     margin-right: 10px;
     border: none;
     background-color: #ccc;
-    font-family: arial;
     font-size: 14px;
     color: #111;
     line-height: 30px;
@@ -168,7 +176,6 @@ header .nav-login  form button {
     margin-right: 10px;
     border: none;
     background-color: #f3f3f3;
-    font-family: arial;
     font-size: 14px;
     color: #111;
     cursor: pointer; 
@@ -234,73 +241,138 @@ header  #header-profile-image img{
 /* home page  */
 
 .home-page {
-    width: 80%;
-    margin: 0% 10%;
-    margin-top: 5%;
-    background-color: #fff;
+    width: 90%;
+    margin: 5% 5% 50% 5%;
 }
+
+@media screen and (min-height: 800px) {
+    .home-page {
+        margin-bottom: 90%;
+    }
+}
+
+
 #showcase {
- min-height: 400px;
  background: #FFEFBA;  /* fallback for old browsers */
  background: -webkit-linear-gradient(to right, #FFFFFF, #CCCCCC, #FFFFFF);  /* Chrome 10-25, Safari 5.1-6 */
  background: linear-gradient(to right, #FFFFFF, #CCCCCC, #FFFFFF);
+ border: 10px solid transparent;
  text-align: center;
  color: #273138;
- border-bottom: 10px solid #333;
 }
 
 #showcase h1 {
-    margin-top: 100px;
+    padding: 50px 0 50px 0;
     font-size: 55px;
     margin-bottom: 10px;
 }
 
 #showcase p {
     font-size: 20px;
+
 }
+
 #boxes {
-    margin-top: 20px;
-
+    margin: 100px 0 100px 0;
 }
 
-#boxes .box {
+#boxes .container {
+    width: 100%;
+}
+
+#boxes > .container > .box {
     float: left;
     text-align: center;
-    width: 30%;
-    padding: 10px;
-
+    margin: 0 1% 15px 0;
+    width: 32.6%;
 }
+
+#boxes > .container > .box:nth-child(3) {
+    margin-right: 0;
+}
+
+#boxes > .container > .box:nth-child(6) {
+    margin-right: 0;
+}
+
 
 #boxes .box h3{
     font-size: 1.3em;
-    margin-bottom: 10px;
-
+    padding: 10px;
 }
 
 #boxes .box img {
     width: 90px;
     height: 90px;
+    margin-top: 5%;
     margin-bottom: 10px;
 }
+
+/* flip the pane when hovered */
+.flip-container:hover .flipper, .flip-container.hover .flipper {
+    transform: rotateY(180deg);
+}
+
+.flip-container, .front, .back {
+    width: 100%;
+    height: 200px;
+    background-color: #fff;
+    float: left;
+    text-align: center;
+}
+
+.flip-container {
+    perspective: 1000px;
+    background-color: transparent;
+}
+
+/* flip speed goes here */
+.flipper {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+
+    position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+    backface-visibility: hidden;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* front pane, placed above back */
+.front {
+    z-index: 2;
+    /* for firefox 31 */
+    transform: rotateY(0deg);
+}
+
+.front p {
+    padding: 10px;
+}
+/* back, initially hidden pane */
+.back {
+    transform: rotateY(180deg);
+}
+
+.back p {
+    padding: 40px;
+}
+
 .home-page .user-count {
-    font-family: arial;
     font-size: 1.5em;
     text-align: center;
 }
 
-/*signup.php  */
-.main-container {
-
-
-}  
-
 .main-container  h2{
-    font-family: arial;
     font-size: 40px;
     color: #111;
     line-height: 50px;
     text-align: center;
-}  
+}
 
 #signup-form {
     width: 400px;
@@ -315,7 +387,6 @@ header  #header-profile-image img{
     margin-bottom: 4px;
     border: none;
     background-color: #fff;
-    font-family: arial;
     font-size: 16px;
     color: #111;
     line-height: 40px;
@@ -328,7 +399,6 @@ header  #header-profile-image img{
     height: 40px;
     border: none;
     background-color: #222;
-    font-family: arial;
     font-size: 16px;
     color: #fff;
     cursor: pointer;
@@ -341,9 +411,9 @@ header  #header-profile-image img{
 
 .main-wrapper {
     width: 80%;
-    margin: 0% 10%;
+    margin: 0 10% 0 10%;
     margin-top: 5%;
-    
+
 }
 .main-wrapper aside {
   float: left;
@@ -356,7 +426,6 @@ header  #header-profile-image img{
 }
 .main-wrapper aside ul li {
    display: block;
-   font-family: arial;
    padding-bottom: 20px;
    text-align: left;
 }
@@ -411,7 +480,6 @@ header  #header-profile-image img{
 
 .profile .userinfo h2{
     font-size: 1.5em;
-    font-family: arial;
     text-align: center;
     margin-bottom: 3%;
 }
@@ -425,7 +493,6 @@ header  #header-profile-image img{
 
 .profile .userinfo li{
     display: inline-block;
-    font-family: arial;
     padding: 10px;
 
 }
@@ -485,18 +552,7 @@ header  #header-profile-image img{
     color: #FFF;
     margin-bottom: 10px;
 }
-footer {
-    overflow: hidden;
-    background-color: #FFFFFF;
-    border-top: 3px solid #333;
-    font: bold 16px sans-serif;
-    text-align: center;
-    padding: 25px 0px;
-    margin-top: 600px;
-    width: 100%;
-    overflow: hidden;
 
-}
 /* friends.php */
 
  #friends-page {
@@ -520,7 +576,7 @@ footer {
 }
 
 .popular-users input[name="search"] {
-    width: 400px;
+    width: 300px;
     height: 30px;
     
 }
@@ -530,7 +586,7 @@ footer {
     height: 35px;
     background-color: #333333;
     color: #FFFFFF;
-    
+    display: inline-block;
 }
 
 .popular-users form a {
@@ -538,12 +594,13 @@ footer {
    padding: 10px;
    background-color: #999999;
    margin-left: 10px;
-    
+   display: inline-block;
 }
 
 .popular-users h1 {
     font-size: 1.5em;
     margin-bottom: 20px;
+    margin-top: 5%;
 }
 
 .popular-users ul {
@@ -552,18 +609,20 @@ footer {
 
 .popular-users li {
     display: block;
-    font-family: arial;
     margin-bottom: 50px;
     padding-bottom: 10px;
     text-align: left;
     width: 100%;
 }
-
-
 .popular-users .friends-list {
     display: inline-block;
     width: 100%;
-    
+    padding: 10px;
+    background-color: #cecece;
+}
+.popular-users .friends-list.best-users {
+    background-color: #FFFFFF;
+    border-bottom: 10px solid black;
 }
 
 .popular-users .friends-list img{
@@ -578,5 +637,193 @@ footer {
     line-height: 25px;
 
 }
+
+.backwrap {
+    background: #113243; /* Old browsers */
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    width:100%;
+    height:100%;
+    position:fixed;
+    left:0;
+    top:0;
+    z-index:-1;
+}
+
+.wrapper {
+    margin-top:0!important;
+    position:relative;
+    margin:0px;
+    z-index:99;
+}
+
+.content {
+    background-color:#fff;
+    padding:10px;
+    margin-top:50px;
+}
+
+
+/* Shapes & Animation
+*/
+
+.epic-icon {
+    font-size:210%!important;
+    opacity:0.5;
+    display:inline-block;
+    width:35px;
+    height:35px;
+    text-align:center;
+    transition:0.3s all;
+}
+
+.back-shapes {
+    width:100%;
+    height:100%;
+    position:relative;
+    overflow:hidden;
+}
+
+.back-shapes img {
+    opacity:0.2;
+    position:absolute;
+    width:2%;
+}
+
+.back-shapes em {
+    opacity:0.2;
+    position:absolute;
+    width:2%;
+    font-size:240%!important;
+    color:#fff;
+}
+
+@media screen and (max-width: 1400px) {
+    .back-shapes img {
+        width:3%;
+    }
+    .back-shapes em {
+        font-size:260%!important;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .back-shapes img {
+        width:4%;
+    }
+    .back-shapes em {
+        font-size:230%!important;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .back-shapes img {
+        width:5%;
+    }
+    .back-shapes em {
+        font-size:180%!important;
+    }
+}
+
+.floating{animation-name:floating;-webkit-animation-name:floating;animation-duration:5s;-webkit-animation-duration:5s;animation-iteration-count:infinite;-webkit-animation-iteration-count:infinite;}
+@keyframes floating{0%{transform:translateY(0%) rotate(-55deg);}
+    50%{transform:translateY(300%) rotate(55deg);}
+    100%{transform:translateY(0%) rotate(-55deg);}
+}
+@-webkit-keyframes floating{0%{-webkit-transform:translateY(0%);}
+    50%{-webkit-transform:translateY(300%);}
+    100%{-webkit-transform:translateY(0%);}
+}
+@-webkit-keyframes floating{0%{-webkit-transform:translateY(0%);}
+    50%{-webkit-transform:translateY(300%);}
+    100%{-webkit-transform:translateY(0%);}
+}
+
+@media (max-width:1199px) {
+    #content_overhead {
+        display: none;
+    }
+    #sidebar {
+        margin-top: 0;
+    }
+    #stream-2 {
+        padding-right: 0;
+    }
+}
+
+.footer-distributed{
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+    box-sizing: border-box;
+    width: 100%;
+    text-align: left;
+    font: normal 16px sans-serif;
+    padding: 45px 50px;
+
+}
+
+.footer-distributed .footer-left p{
+    color:  #8f9296;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Footer links */
+
+.footer-distributed p.footer-links{
+    font-size:18px;
+    font-weight: bold;
+    color:  #8f9296;
+    margin: 0 0 10px;
+    padding: 0;
+}
+
+.footer-distributed p.footer-links a{
+    display:inline-block;
+    line-height: 1.8;
+    text-decoration: none;
+    color:  inherit;
+}
+
+.footer-distributed .footer-right{
+    float: right;
+    margin-top: 6px;
+    max-width: 180px;
+}
+
+.footer-distributed .footer-right a{
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    background-color:  #33383b;
+    border-radius: 2px;
+
+    font-size: 20px;
+    color: #ffffff;
+    text-align: center;
+    line-height: 35px;
+
+    margin-left: 3px;
+}
+
+/* If you don't want the footer to be responsive, remove these media queries */
+
+@media (max-width: 600px) {
+
+    .footer-distributed .footer-left,
+    .footer-distributed .footer-right{
+        text-align: center;
+    }
+
+    .footer-distributed .footer-right{
+        float: none;
+        margin: 0 auto 20px;
+    }
+
+    .footer-distributed .footer-left p.footer-links{
+        line-height: 1.8;
+    }
+}
+
 
 
