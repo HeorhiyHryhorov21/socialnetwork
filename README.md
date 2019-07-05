@@ -11,7 +11,4 @@ Technologies used:
 
 - `MySQL` *_required_*
 	- Version `5.6+` recommended
-	
-- `cURL` _recommended_
-	- Version `7+` recommended
 - `AJAX`	
