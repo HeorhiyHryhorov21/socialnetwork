@@ -1,4 +1,4 @@
-# Social Network
+# Social Network UNFINISHED
 
 # Installation
 - $ git clone https://github.com/HeorhiyHryhorov21/socialnetwork.git
